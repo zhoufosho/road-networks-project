@@ -21,7 +21,8 @@ def getPathLen(path):
 
 # BFS approach to find shortest
 def shortestPath(start, end, path=[], pathQueue=[]):
-    path = [(start), [start]]
+    path = path + [start]
+    pathQueue = pathQueue + [path]
 
     while(len(pathQueue)):
         path = pathQueue.pop(0)
@@ -71,7 +72,7 @@ with open("roadEdges.txt") as f:
 
 # Graph = LoadEdgeList(PNGraph, "roadEdges.txt", 1, 2)
 
-numNodes = 50
+numNodes = 35
 
 distanceMatrix = [[0 for x in xrange(numNodes)] for y in xrange(numNodes)]
 
@@ -81,13 +82,11 @@ for n1 in xrange(numNodes - 1):
             distanceMatrix[n1][n2] = nodeDistances[(n1, n2)]
             distanceMatrix[n2][n1] = nodeDistances[(n1, n2)]
         else:
-            # if n2 > 26:
-                # pdb.set_trace()
             shortest = shortestPath(n1, n2)
             if shortest:
                 distanceMatrix[n1][n2] = getPathLen(shortest)
                 distanceMatrix[n2][n1] = getPathLen(shortest)
 
 f = open('distanceMatrix.txt', 'w')
-writeMatrixToFile(f, toPrint=True)
+writeMatrixToFile(f)
 f.close()
