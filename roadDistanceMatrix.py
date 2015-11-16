@@ -29,8 +29,13 @@ def shortestPath(start, end, path=[], pathQueue=[]):
         start = path[-1]
 
         for next in nodeMap[start]:
+            # if we've reached the end
             if next == end:
-                return path + [next]
+                return getPathLen(path + [next])
+
+            # if we've already gone through this sub path
+            if distanceMatrix[next][end] > 0:
+                return getPathLen(path + [next]) + distanceMatrix[next][end]
 
             if next not in path:
                 pathQueue = pathQueue + [path + [next]]
@@ -53,7 +58,7 @@ edgeDistances = {}  # from edge id to distance
 nodeMap = {}  # from node id to set of node neighbors
 nodeDistances = {}  # from (n1, n2) to distance
 
-with open("roadEdges.txt") as f:
+with open("oldenburgEdges.txt") as f:
     for line in f:
         r = line.strip('\n').split(' ')
         (edge, dist) = r[0], r[3]
@@ -72,11 +77,13 @@ with open("roadEdges.txt") as f:
 
 # Graph = LoadEdgeList(PNGraph, "roadEdges.txt", 1, 2)
 
-numNodes = 35
+numNodes = len(nodeMap)
 
 distanceMatrix = [[0 for x in xrange(numNodes)] for y in xrange(numNodes)]
 
 for n1 in xrange(numNodes - 1):
+    print n1
+
     for n2 in range(n1 + 1, numNodes):
         if(n1, n2) in nodeDistances.keys():
             distanceMatrix[n1][n2] = nodeDistances[(n1, n2)]
@@ -84,9 +91,9 @@ for n1 in xrange(numNodes - 1):
         else:
             shortest = shortestPath(n1, n2)
             if shortest:
-                distanceMatrix[n1][n2] = getPathLen(shortest)
-                distanceMatrix[n2][n1] = getPathLen(shortest)
+                distanceMatrix[n1][n2] = shortest  #  getPathLen(shortest)
+                distanceMatrix[n2][n1] = shortest  #  getPathLen(shortest)
 
-f = open('distanceMatrix.txt', 'w')
+f = open('distanceMatrix-oldenburg.txt', 'w')
 writeMatrixToFile(f)
 f.close()
