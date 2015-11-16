@@ -9,8 +9,8 @@ function [ newEdgeList ] = computeModelEdgeList( numNodes, edgeListOriginal, dim
     distMat = graphallshortestpaths(G);
 
     %if strcmp(dimRedMethod, 'MDS')
-        lowDimCoords = cmdscale(distMat);
-        D = squareform(pdist(lowDimCoords));
+    lowDimCoords = mdscale(distMat,2);
+    D = squareform(pdist(lowDimCoords));
     %end
 
     P = 1./(1+exp(lambda.*D));
