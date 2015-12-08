@@ -3,21 +3,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+orig = [
+    'oldenburgEdges.txt',
+    'SJdata.txt'
+]
+
 # files = [
-#     'modelOLEdges_lambda1.txt',
-#     'modelOLEdges_lambda2.txt',
-#     'modelOLEdges_lambda3.txt',
-#     'modelOLEdges_lambda4.txt'
+#     'modelOLEdges_MDS.txt',
+#     'modelOLEdges_ISO.txt'
 # ]
 
 files = [
-    'modelSJEdges_lambda1.txt',
-    'modelSJEdges_lambda2.txt',
-    'modelSJEdges_lambda3.txt'
+    'modelSJEdges_MDS.txt',
+    'modelSJEdges_ISO.txt'
 ]
 
-lambdas = [0.001, 0.01, 1, 2, 3, 4]
-lambdaDim2 = [1, 2, 3]
+lambdas = [1, 2, 3]
 
 sccSz = []
 effDiams = []
@@ -29,7 +30,7 @@ count = 0
 
 values = {}
 
-for f in ['SJdata.txt']:
+for f in [orig[1]]:
     Graph = LoadEdgeList(PUNGraph, f, 1, 2)
     size = GetMxSccSz(Graph)
     sccSz.append(size)
@@ -42,7 +43,9 @@ for f in ['SJdata.txt']:
     clustcff = GetClustCf(Graph, -1)
     clustcffs.append(clustcff)
 
-    values[count] = [size, fullDiam, triad, clustcff]
+    PlotInDegDistr(Graph, f, "San Joaquin - in-degree Distribution")
+
+    values[count] = [size, effDiam, triad, clustcff]
     print values[count]
     count += 1
 
@@ -60,7 +63,10 @@ for f in files:
     clustcff = GetClustCf(Graph, -1)
     clustcffs.append(clustcff)
 
-    values[count] = [size, fullDiam, triad, clustcff]
+    PlotInDegDistr(Graph, f, "San Joaquin - in-degree Distribution")
+
+    # connectedness, avg. shortest path, triad, cluster
+    values[count] = [size, effDiam, triad, clustcff]
     print values[count]
     count += 1
 
@@ -73,14 +79,14 @@ colors = ['r', 'b', 'g', 'y']
 
 fig, ax = plt.subplots()
 
-for x in xrange(4):
+for x in xrange(len(lambdas)):
     rects = ax.bar(ind + x*width, values[x], width, color=colors[x])
 
 
 # add some text for labels, title and axes ticks
 ax.set_xticks(ind + width)
 ax.set_xticklabels(('MxSccSz', 'BfsFullDiam', 'Triads', 'ClustCf'))
-ax.legend(('original', 'lambda = 0.01', 'lambda = 0.1', 'lambda = 1'))
+ax.legend(('original', 'MDS', 'ISO'))
 ax.set_yscale('log')
 plt.ylabel('Magnitude of Parameter')
 plt.xlabel('Network Properties')
