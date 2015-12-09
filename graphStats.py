@@ -13,8 +13,7 @@ files = [
     'modelOLEdges_ISO.txt',
     'modelOLEdges_MDS_rand.txt',
     'modelOLEdges_ISO_rand.txt',
-    'modelOLEdges_MDS_hopScaled.txt',
-    'modelOLEdges_badLambdaHigh.txt'
+    'modelOLEdges_MDS_hopScaled.txt'
 ]
 
 # files = [
@@ -22,7 +21,7 @@ files = [
 #     'modelSJEdges_ISO.txt'
 # ]
 
-avgPaths = [40.69, 2.03, 3.35, 7.21, 12.93, 0000, 28.95]
+avgPaths = [40.69, 3.35, 7.21, 12.93, 5.47, 28.95]
 
 sccSz = []
 effDiams = []
@@ -77,7 +76,7 @@ for f in files:
 N = len(values[0])
 
 ind = np.arange(N)  # the x locations for the groups
-width = 0.05       # the width of the bars
+width = 0.12       # the width of the bars
 
 colors = ['r', 'b', 'g', 'y', 'c', 'm', 'darkgoldenrod']
 
@@ -102,11 +101,11 @@ for x in xrange(len(files) + 1):
 
 # add some text for labels, title and axes ticks
 ax.set_xticks(ind + width)
-ax.set_xticklabels(('Percent SCC', 'Diameter', 'Triads', 'ClustCf', 'AvgPathLen'))
-plt.legend(('original', 'MDS', 'ISO', 'MDS + Random', 'ISO + Random', 'Hop Scaled', 'bad lambda'))
+ax.set_xticklabels(('Percent SCC', 'Diameter', 'Triads', 'ClustCf', 'AvgPathLen'), fontsize='large')
+plt.legend(('original', 'MDS', 'ISO', 'MDS + Random', 'ISO + Random', 'Hop Scaled', 'bad lambda'), loc=2)
 ax.set_yscale('log')
-plt.ylabel('Magnitude of Parameter')
-plt.xlabel('Network Properties')
+plt.ylabel('Magnitude of Parameter', fontsize='large')
+plt.xlabel('Network Properties', fontsize='large')
 plt.show()
 # plt.scatter(lambdas, effDiams, label=lambdas)
 # plt.xlabel('Lambda Value')
