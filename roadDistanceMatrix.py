@@ -1,5 +1,4 @@
 from snap import *
-import pdb
 
 
 def readRoadNodes():
@@ -58,7 +57,7 @@ edgeDistances = {}  # from edge id to distance
 nodeMap = {}  # from node id to set of node neighbors
 nodeDistances = {}  # from (n1, n2) to distance
 
-with open("oldenburgEdges.txt") as f:
+with open("roadEdges.txt") as f:
     for line in f:
         r = line.strip('\n').split(' ')
         (edge, dist) = r[0], r[3]
@@ -94,6 +93,6 @@ for n1 in xrange(numNodes - 1):
                 distanceMatrix[n1][n2] = shortest  #  getPathLen(shortest)
                 distanceMatrix[n2][n1] = shortest  #  getPathLen(shortest)
 
-f = open('distanceMatrix-oldenburg.txt', 'w')
+f = open('distanceMatrix-road.txt', 'w')
 writeMatrixToFile(f)
 f.close()
